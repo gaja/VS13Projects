@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <title>Some BB stuff</title>
+        <script src="bower_components/backbone/test/vendor/jquery.js" type="text/javascript"></script>
+        <script src="bower_components/backbone/test/vendor/json2.js" type="text/javascript"></script>
+        <script src="bower_components/backbone/test/vendor/underscore.js" type="text/javascript"></script>
+        <script src="bower_components/backbone/backbone.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <!--template render-->
+        <script type="text/template" id="item-container">
+            <li><%= value %></li>
+        </script>
+        <script type="text/javascript" charset="utf-8">
+            // creating model
+            <!--Wine = Backbone.Model.extend();-->
+
+            <!--firstWine = new Wine ({-->
+                <!--name: 'Ribar'-->
+            <!--});-->
+            // some console value radings
+            // firstWine.getJSON(); // returns an whole object
+            // firstwine.get('name');    // returns the name property
+            // firstwine.set("name", "Kuncic");
+
+            // creating collection
+            <!--Wine = Backbone.Model.extend();-->
+
+            <!--Wines = Backbone.Collection.extend({-->
+                <!--Model: Wine,-->
+                <!--url: "#"-->
+            <!--});-->
+
+            // initialize Model:
+            Wine = Backbone.Model.extend();
+
+            Wines = Backbone.Collection.extend({
+                Model: Wine,
+                url: "#"
+            });
+
+            wines = new Wines([
+                {name: "Ribar"},
+                {name: "Zlahtina"}
+            ]);
+
+            // console.log(wines.toJSON());
+
+            // define view
+            HomeView = Backbone.View.extend({
+                el: 'body',
+
+                initialize: function () {
+                    this.render();  // creates $e jquery element
+                },
+
+                render: function () {
+                    this.$el.empty();
+                    this.$el.append("<h1>Rendering from view</h1>");
+
+                    this.listView = new ListView();
+                    this.$el.append(this.listView.render().el);
+
+                    return this;
+                }
+            });
+
+            // WineApp = new HomeView();
+
+            ListView = Backbone.View.extend({
+                tagName: 'ul',
+
+                initialize: function () {
+                    this.template = _.template($('#item-container').html());
+                },
+
+                render: function () {
+                    this.$el.empty();
+                    this.$el.append("<li>Jenna</li>");
+                    this.$el.append("<li>James</li>");
+                    this.$el.append(this.template({value: "Some templating code."}));
+
+                    return this;
+                }
+            });
+
+            // routes
+            $(document).ready(function () {
+                wineApp = new AppRouter();
+                Backbone.history.start();
+            });
+
+            // routes example
+            AppRouter = Backbone.Router.extend({
+                routes: {
+                    "": "home",
+                    "add": "add",
+                    "close": "home"
+                },
+
+                home: function () {
+                    console.log('home');
+                    new HomeView();
+                },
+
+                add: function () {
+                    console.log('add');
+                    new AddView();
+                }
+            });
+            
+            // events
+            AddView = Backbone.View.extend({
+                className: "span8",
+                tagName: "div",
+
+                events: {
+                    "click #addBtn": "add"
+                },
+
+                add: function (e) {
+                    e.preventDefault();
+
+                    console.log($('#name').val());
+
+                    return this;
+                }
+            });
+        </script>
+    </body>
+</html>

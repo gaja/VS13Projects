@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <title>Backbone.js</title>
+   <style type="text/css" media="all">
+      body {
+         background-color: black;
+         color: orange;
+      }
+   </style>
+</head>
+<body>
+   <div class="container">
+      <h2>Backbone.js</h2>
+      <p>
+         Ovaj sadrzaj je namjenjen testiranju Backbonejs frameworku....
+      </p>
+   </div>
+   <script type="text/javascript" src="../scripts/jquery.js"></script>
+   <script type="text/javascript" src="../scripts/underscore.js"></script>
+   <script type="text/javascript" src="../scripts/backbone.js"></script>
+   <script type="text/javascript" charset="utf-8">
+      var ChangeBGColor = Backbone.Model.extend({
+         changeColor: function() {
+            var cssColor = prompt("Enter color: ");
+            this.set({color: cssColor});
+         }
+      });
+
+      window.changeBGColor = new ChangeBGColor();
+      changeBGColor.on('change:color', function(model, color) {      // adds model to scope
+         $('.container').css({background: color});
+      });
+      changeBGColor.set({color: 'darkblue'});
+      changeBGColor.changeColor();
+   </script>
+</body>
+</html>
