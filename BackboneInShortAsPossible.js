@@ -245,3 +245,54 @@ console.log(JSON.stringify(artist));
 setInterval( function() {
    channel.fetch();
 }, 10000);
+
+// save
+// prototype -- model.save([attributes], [options]);
+// save your model to database by delegating to model.sync function. It returns
+// jqXHR if validation is successful and false otherwise. The attribute hash
+// should have atribute values that you want to change. keys that is not
+// mentioned should not be altered. If model validate method and validation
+// fails, the model will not be saved. If model isNew the save will be 'create'
+// (http: post), if the model already exists the save will be 'update' (http:
+// put). if you wish to send only changed models to server use following method
+// model.save(attrs, {patch: true}); 
+// Calling a save with new attributes will couse change event immediately, and
+// request event as the Ajax requst begins to go to the server, and sync event
+// after successfully acknowledged by server.
+// Pass {wait: true} if you like to wait server to return data first.
+// In example we have overriden Backbone.sync function. It recives create
+// request the first time the model is saved, and an update request second
+// time.
+Backbone.sync = function(method, model) {
+   console.log(method + ": " + JSON.strinify(model));
+   model.set('id', 1);
+};
+var book = new Backbone.Model({
+   title: "another book title",
+   author: "some dity ass bastard"
+});
+book.save();   // create
+book.save({author: "some other asshole"});   // update
+// save accepts success and error callbacks in the options hash, which will be
+// passed the arguments (model, response, options). If server validation fails,
+// return will be non-200 HTTP response code, along with an error response in
+// text or JSON.
+book.save("author", "some prick", {error: function() { /* some code */}});
+
+// destroy
+// prototype -- model.destroy([options]);
+// destroys th model on the server by delegating an HTTP delete request to
+// Backbone.sync. Returns jqXHR object, or false if the model isNew. Accepts
+// success and error callbacks in the options hash, which will be passed
+// (model, response, options). Triggers a destroy event in the model which will
+// bubble up through anny collections that contain it, a request event as it
+// begins the Ajax request to the server, and sync event after the server has
+// succesfully acknowledged the model's deletiop. Pass {wait: true} if like to
+// wait server to respond before removing the model from the collection.
+book.destroy({success: function(model, response) {
+   // some code
+}});
+
+// validate
+// prototype -- model.validate(attributes, options)
+//
