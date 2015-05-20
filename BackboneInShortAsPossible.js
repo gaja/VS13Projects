@@ -217,3 +217,16 @@ var Meal = Backbone.Model.extend({
 });
 alert("desert: " + (new Meal).get("desert"));   // objects are passed by reference. so, you can use defaults as function if you wanna more control
 
+// toJSON
+// prototype -- model.toJSON([options]);
+// returns a shallow copy of model'a attributes for JSON stringification. This
+// can be used for persistence, serialization, augumetation before beeing send
+// to server. Thus not return JSON string. 
+var artist = Backbone.model({
+   name: 'Banksy',
+   lname: 'JustBanksy'
+});
+artist.set({birthday: "12.12.1990"});
+console.log(JSON.stringify(artist));
+
+
