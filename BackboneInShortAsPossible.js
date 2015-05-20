@@ -163,4 +163,57 @@ if (note.has("title") {
 
 // clear
 // prototype -- model.clear([options]);
-// removes all attribues form model
+// removes all attribues form model including id
+
+// id
+// prototype -- model.id
+// specail propertie of model. models can be retrived via id from collection
+// and id is uded to generate model url's by defalt
+
+// idAttribute
+// prototype -- model.idAttribute
+// a model unique identifier is stored under the id attribute. if you re direct
+// communicate with backand db (couchdb, mongodb) that uses different uniqe
+// key, you may set model idAttribute to transparently map from that key to id.
+var Meal = Backbone.Model.extend({
+   idAttribute: "_id"
+});
+var cake = new Meal({_id: 1, name: "sandwitch"});
+alert("cake id: " + cake.id);
+
+// cid
+// prototype -- model.cid
+// a special proprty of the models, cid or client id is id that is
+// automatically assgned to all models when they are first created. used when
+// models are not yet saved to server but needs to be visible to UI.
+
+// attributes 
+// model.attributes
+// internal hash containing model's state. usuly a form of JSOM data from
+// server. serilized row data from database, could be client side computed data
+// please use set to update model state insted ding that directly 
+// to retrive munge a copy of the model's attribute use
+// _.clone(model.attributes);
+
+// changed
+// prrototype -- model.changed
+// the model.changed propery is the internal hash that contains all the
+// attributes that has changed since the last set.
+// don't update change directly, becouse set will do it automaticly.
+// copy of changed can be acquired by -- changedAttributes
+
+// defaults
+// prototype -- model.defaults -- model.defaults()
+// the defaults hash (or function) can be used to specify the default
+// attributes for your model.
+// when creating an instance of the model, any unspecified attributes will be
+// set to default their value.
+var Meal = Backbone.Model.extend({
+   defaults: {
+      "apperative": "snaptz",
+      "main meal": "vienna stake",
+      "desert": "ice cream"
+   }
+});
+alert("desert: " + (new Meal).get("desert"));   // objects are passed by reference. so, you can use defaults as function if you wanna more control
+
