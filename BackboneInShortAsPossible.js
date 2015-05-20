@@ -95,3 +95,72 @@ AddView = Backbone.View.extend({
       return this;
    }
 });
+
+// extend
+var Note = Backbone.Model.extend({
+   initialize: function() {
+      console.log("initializing...");
+   },
+   author: function() {
+      var autor = prompt("your name plese:");
+      console.log("Author: " + autor);
+   },
+   bookTitle: function(title) {
+      console.log(title);
+   }
+});
+
+var PrivateNote = Note.extend({
+   bookTitle: function(title) {
+      return title.owns(this);
+   }
+});
+
+// super -- calling function of the same name in figher prototype chaining
+var Note = Backbone.Model.extend({
+   set: function(attributes, options) {
+      Backbone.Model.prototype.set.apply(this, arguments);
+   }
+        // furder code...
+});
+
+// constructor/initialize
+new Book ({
+   title: "Jackob, the immaginery carracter",
+   author: "Some Old Bastard"
+});
+
+// get
+// prototype -- model.get(attibute);
+note.get("title");
+
+// set
+// prototype -- model.set(atributes, [options]);
+// can bind model events in set -- change:title, or change:content
+note.set({title: "20.05.2015.", content: "backbone.js hussle"});
+book.set("title", "another book title to make up");
+
+// escape 
+// prototype -- model.escape(attribute);
+// simmilar to get, only return HTML escaped version of model attribute
+// can prevent XSS attacks (chross side scripting attacks)
+var hacker = new Backbone.Model({
+   name: "<script>alert('xss')</script>";
+});
+alert(hacker.escape("name"));
+
+// has
+// returns true if the attribute is set to a non-null or non-undefined value
+// prototype -- model.has(attribute)
+if (note.has("title") {
+   // do something
+}
+
+// unset 
+// removes an attribute by deleting it from internal attribute hash. Fires
+// change event unless silent is on.
+// prototype -- model.unset(attribute, [options]);
+
+// clear
+// prototype -- model.clear([options]);
+// removes all attribues form model
