@@ -229,4 +229,19 @@ var artist = Backbone.model({
 artist.set({birthday: "12.12.1990"});
 console.log(JSON.stringify(artist));
 
+// sync
+// prototype -- model.sync(method, model, [options]);
+// uses Backbone.sync to persist model state to the server. Can be overriden
+// for custom behavior
 
+// fetch
+// prototype -- model.fetch([options]);
+// merges the model's state with attributes fetched from server by delegating
+// to Bacbone.sync. Returns jqxhr. usefull if model has never  been populated
+// with data, or if you like to ensure that you have the latest server state.
+// Triggers change event if there is difference between server state and
+// current attributes. 
+// this example puls data every 10 seconds to keep data channel up to date
+setInterval( function() {
+   channel.fetch();
+}, 10000);
